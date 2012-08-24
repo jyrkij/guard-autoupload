@@ -1,0 +1,17 @@
+# Configuartion Options for guard-autoupload
+
+opts = {
+    :protocol => :sftp,       # protocol used to connect to remote host
+                              # either sftp or ftp
+    :host => "remote_host",
+    :user => "username",
+    :password => "password",
+    :remote => "remote_path",
+    :verbose => true          # the amount of output, if false, becomes silent
+}
+
+group 'autoupload' do
+    guard 'autoupload', opts do
+        watch(/.*/)
+    end
+end
