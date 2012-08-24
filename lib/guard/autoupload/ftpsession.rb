@@ -1,11 +1,16 @@
 require 'net/ftp'
 
 class FTPSession
+    RESPAWN_INTERVAL = 60 # in seconds
+
     def initialize(host, user, password)
         @session = Net::FTP.new
         @host = host
         @user = user
         @password = password
+        @last_timestamp = Time.new(0)
+        @session.connect(@host)
+        @session.login(@user, @password)
     end
 
     def upload!(local, remote)
@@ -27,10 +32,14 @@ class FTPSession
     private
 
     def remote
-        @session.connect(@host)
-        @session.login(@user, @password)
+        command_start_timestamp = Time.now
+        if (command_start_timestamp - @last_timestamp > RESPAWN_INTERVAL)
+            @session.close unless @session.last_response == nil
+            @session.connect(@host)
+            @session.login(@user, @password)
+        end
         ret = yield
-        @session.close
+        @last_timestamp = Time.now
         ret
     end
 end
