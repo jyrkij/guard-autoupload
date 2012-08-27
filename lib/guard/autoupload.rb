@@ -59,7 +59,8 @@ module Guard
                 end
             end
 
-            notify("Uploaded:\n#{paths.join("\n")}")
+            msg = "Uploaded:\n#{paths.join("\n")}"
+            ::Guard::Notifier.notify msg, :title => "Uploaded"
         end
 
         def run_on_removals(paths)
@@ -76,7 +77,8 @@ module Guard
                 log "Deleted #{path}" unless quiet?
             end
 
-            notify("Deleted:\n#{paths.join("\n")}")
+            msg = "Deleted:\n#{paths.join("\n")}"
+            ::Guard::Notfier.notify msg, :title => "Deleted"
         end
 
         private

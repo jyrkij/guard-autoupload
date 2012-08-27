@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
     s.name        = "guard-autoupload"
-    s.version     = 0.22
+    s.version     = 0.23
     s.authors     = ["Jyrki Lilja"]
     s.email       = ["jyrki dot lilja at outlook dot com"]
     s.homepage    = "https://github.com/jyrkij/guard-autosync"
