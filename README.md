@@ -16,13 +16,12 @@ Sample guardfile:
         :user => "username",
         :password => "password",
         :remote => "remote_path",
-        :verbose => true          # the amount of output
+        :verbose => false,        # if true you get all outputs
+        :quiet => false           # if true outputs only on exceptions.
     }
 
-    group 'autoupload' do
-        guard 'autoupload', opts do
-            watch(/.*/)
-        end
+    guard :autoupload, opts do
+        watch(/.*/)
     end
 
 Dependencies
@@ -30,6 +29,15 @@ Dependencies
 
  - guard
  - Net::SFTP
+
+Installation
+------------
+
+For now you need to install `guard-autoupload` by building the gem manually
+and installing from that:
+
+    gem build guard-autoupload.gemspec
+    gem install guard-autoupload-0.2.gem
 
 Author
 ------
