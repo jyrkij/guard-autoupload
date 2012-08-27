@@ -78,7 +78,7 @@ module Guard
             end
 
             msg = "Deleted:\n#{paths.join("\n")}"
-            ::Guard::Notfier.notify msg, :title => "Deleted"
+            ::Guard::Notifier.notify msg, :title => "Deleted"
         end
 
         private
