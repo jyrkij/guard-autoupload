@@ -31,8 +31,8 @@ module Guard
             @verbose = options[:verbose]
             @quiet = options[:quiet] unless verbose?
 
-            log "Initialized with watchers = #{watchers.inspect}"
-            log "Initialized with options  = #{options.inspect}"
+            log "Initialized with watchers = #{watchers.inspect}" if verbose?
+            log "Initialized with options  = #{options.inspect}" unless quiet?
 
             super
         end
