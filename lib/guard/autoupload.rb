@@ -87,13 +87,15 @@ module Guard
                 new_dir = File.join(new_dir, dir)
 
                 begin
-                    log "Creating #{new_dir}" unless quiet?
+                    log "Creating #{new_dir}" if verbose?
                     @session.mkdir!(new_dir)
                 rescue Exception
                     log "Cannot create directory #{new_dir}"
                     throw :task_has_failed
                 end
             end
+
+            log "Created directory #{remote_dir}" unless quiet?
         end
 
         def verbose?
@@ -105,7 +107,6 @@ module Guard
         end
 
         def log(message)
-            return unless verbose?
             puts "[#{Time.now}] #{message}"
         end
     end
