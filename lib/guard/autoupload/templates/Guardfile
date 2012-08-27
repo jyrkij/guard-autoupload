@@ -7,11 +7,10 @@ opts = {
     :user => "username",
     :password => "password",
     :remote => "remote_path",
-    :verbose => true          # the amount of output, if false, becomes silent
+    :verbose => false,        # if true you get all outputs
+    :quiet => false           # if true outputs only on exceptions.
 }
 
-group 'autoupload' do
-    guard 'autoupload', opts do
-        watch(/.*/)
-    end
+guard :autoupload, opts do
+    watch(/.*/)
 end
