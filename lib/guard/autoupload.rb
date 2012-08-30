@@ -93,7 +93,6 @@ module Guard
                     @session.mkdir!(new_dir)
                 rescue Exception
                     log "Cannot create directory #{new_dir}"
-                    throw :task_has_failed
                 end
             end
 
