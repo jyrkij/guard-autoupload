@@ -12,5 +12,7 @@ opts = {
 }
 
 guard :autoupload, opts do
-    watch(/.*/)
+    watch(/^((?!Guardfile$).)*$/)
+    # Matches every other file but Guardfile. This way we don't
+    # accidentally upload the credentials.
 end
