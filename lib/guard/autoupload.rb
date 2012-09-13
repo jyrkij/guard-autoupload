@@ -2,19 +2,19 @@ $LOAD_PATH.unshift File.dirname(__FILE__)
 
 require 'guard'
 require 'guard/guard'
-require 'net/sftp'
+require 'autoupload/sftpsession.rb'
 require 'autoupload/ftpsession.rb'
 
 module Guard
     class Autoupload < Guard
         def initialize(watchers = [], options = {})
+            @instance = self
             if options[:protocol] == :sftp
-                @session = Net::SFTP.start(
+                @session = SFTPSession.new(
                     options[:host],
                     options[:user],
-                    {
-                        :password => options[:password]
-                    }
+                    options[:password],
+                    @instance
                 )
             elsif options[:protocol] == :ftp
                 @session = FTPSession.new(
@@ -48,8 +48,9 @@ module Guard
                     log "Upload #{local_file} => #{remote_file}" if verbose?
                     @session.upload!(local_file, remote_file)
                     log "Uploaded #{path}" unless quiet?
-               rescue Exception => ex
-                    log "Exception on upload #{path}\n#{ex}" if verbose?
+                rescue => ex
+                    log "Exception on uploading #{path}\n#{ex.inspect}"
+                    log ex.backtrace.join("\n") if verbose?
                     attempts += 1
                     remote_dir = File.dirname(remote_file)
                     recursively_create_dirs(remote_dir)
@@ -70,8 +71,9 @@ module Guard
                 begin
                     log "Delete #{remote_file}" if verbose?
                     @session.remove!(remote_file)
-                    @session.rmdir!(remote_file)
-                rescue Exception
+                rescue => ex
+                    log "Exception on deleting #{path}\n#{ex.inspect}"
+                    log ex.backtrace.join("\n") if verbose?
                 end
 
                 log "Deleted #{path}" unless quiet?
@@ -79,24 +81,6 @@ module Guard
 
             msg = "Deleted:\n#{paths.join("\n")}"
             ::Guard::Notifier.notify msg, :title => "Deleted"
-        end
-
-        private
-
-        def recursively_create_dirs(remote_dir)
-            new_dir = @remote
-            remote_dir.gsub(@remote, "").split("/").each do |dir|
-                new_dir = File.join(new_dir, dir)
-
-                begin
-                    log "Creating #{new_dir}" if verbose?
-                    @session.mkdir!(new_dir)
-                rescue Exception
-                    log "Cannot create directory #{new_dir}"
-                end
-            end
-
-            log "Created directory #{remote_dir}" unless quiet?
         end
 
         def verbose?
@@ -109,6 +93,25 @@ module Guard
 
         def log(message)
             puts "[#{Time.now}] #{message}"
+        end
+
+        private
+
+        def recursively_create_dirs(remote_dir)
+            new_dir = @remote
+            remote_dir.gsub(@remote, "").split("/").each do |dir|
+                new_dir = File.join(new_dir, dir)
+
+                begin
+                    log "Creating #{new_dir}" if verbose?
+                    @session.mkdir!(new_dir)
+                rescue => ex
+                    log "Cannot create directory #{new_dir}\n#{ex.inspect}"
+                    log ex.backtrace.join("\n") if verbose?
+                end
+            end
+
+            log "Created directory #{remote_dir}" unless quiet?
         end
     end
 end
