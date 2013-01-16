@@ -10,8 +10,10 @@ Usage
 Sample guardfile:
 
     opts = {
-        :protocol => :sftp,       # protocol used to connect to remote host
-                                  # either sftp or ftp
+        :protocol => :scp,        # Protocol used to connect to remote host.
+                                  # Possible values are :scp, :sftp and :ftp.
+                                  # Of these :scp is the preferred one for
+                                  # its stability.
         :host => "remote_host",
         :user => "username",
         :password => "password",
@@ -21,7 +23,9 @@ Sample guardfile:
     }
 
     guard :autoupload, opts do
-        watch(/.*/)
+        watch(/^((?!Guardfile$).)*$/)
+        # Matches every other file but Guardfile. This way we don't
+        # accidentally upload the credentials.
     end
 
 Dependencies
@@ -29,6 +33,7 @@ Dependencies
 
  - guard
  - Net::SFTP
+ - Net::SSH::Simple
 
 Installation
 ------------
@@ -37,7 +42,7 @@ For now you need to install `guard-autoupload` by building the gem manually
 and installing from that:
 
     gem build guard-autoupload.gemspec
-    gem install guard-autoupload-0.2.gem
+    gem install guard-autoupload-0.27.gem
 
 Author
 ------
