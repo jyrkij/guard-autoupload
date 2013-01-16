@@ -1,8 +1,10 @@
 # Configuartion Options for guard-autoupload
 
 opts = {
-    :protocol => :sftp,       # protocol used to connect to remote host
-                              # either sftp or ftp
+    :protocol => :scp,        # Protocol used to connect to remote host.
+                              # Possible values are :scp, :sftp and :ftp.
+                              # Of these :scp is the preferred one for
+                              # its stability.
     :host => "remote_host",
     :user => "username",
     :password => "password",
