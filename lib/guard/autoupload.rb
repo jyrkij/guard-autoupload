@@ -2,14 +2,24 @@ $LOAD_PATH.unshift File.dirname(__FILE__)
 
 require 'guard'
 require 'guard/guard'
+require 'autoupload/scpsession.rb'
 require 'autoupload/sftpsession.rb'
 require 'autoupload/ftpsession.rb'
 
 module Guard
     class Autoupload < Guard
         def initialize(watchers = [], options = {})
+            super
+
             @instance = self
-            if options[:protocol] == :sftp
+            if options[:protocol] == :scp
+                @session = SCPSession.new(
+                    options[:host],
+                    options[:user],
+                    options[:password],
+                    self
+                )
+            elsif options[:protocol] == :sftp
                 @session = SFTPSession.new(
                     options[:host],
                     options[:user],
@@ -31,10 +41,9 @@ module Guard
             @verbose = options[:verbose]
             @quiet = options[:quiet] unless verbose?
 
-            log "Initialized with watchers = #{watchers.inspect}" if verbose?
-            log "Initialized with options  = #{options.inspect}" unless quiet?
-
-            super
+            options[:password].gsub!(/./, '*') if options.include? :password
+            log "Initialized with watchers #{watchers.inspect}" if verbose?
+            log "Initialized with options #{options.inspect}" unless quiet?
         end
 
         def run_on_change(paths)
@@ -93,6 +102,13 @@ module Guard
 
         def log(message)
             puts "[#{Time.now}] #{message}"
+        end
+
+        def stop
+            log "Tearing down connections" unless quiet?
+            if @session.is_a? SCPSession
+                @session.close
+            end
         end
 
         private
