@@ -22,6 +22,7 @@ class SCPSession
         rescue Net::SSH::Simple::Error => e
             case e.wrapped
             when Errno::ECONNRESET
+            when Net::SSH::Disconnect
                 raise e if @retry_count >= @max_retries
                 @retry_count += 1
                 @caller.log "Failed uploading and will try again."
@@ -43,6 +44,7 @@ class SCPSession
         rescue Net::SSH::Simple::Error => e
             case e.wrapped
             when Errno::ECONNRESET
+            when Net::SSH::Disconnect
                 raise e if @retry_count >= @max_retries
                 @retry_count += 1
                 @caller.log "Failed making directory and will try again."
@@ -63,6 +65,7 @@ class SCPSession
         rescue Net::SSH::Simple::Error => e
             case e.wrapped
             when Errno::ECONNRESET
+            when Net::SSH::Disconnect
                 raise e if @retry_count >= @max_retries
                 @retry_count += 1
                 @caller.log "Failed removing file and will try again."
@@ -87,6 +90,7 @@ class SCPSession
         rescue Net::SSH::Simple::Error => e
             case e.wrapped
             when Errno::ECONNRESET
+            when Net::SSH::Disconnect
                 raise e if @retry_count >= @max_retries
                 puts @password
                 exit
