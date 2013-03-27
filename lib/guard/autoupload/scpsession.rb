@@ -38,7 +38,7 @@ class SCPSession
     def mkdir!(dir)
         begin
             check_exists = ss.ssh "#{@host}", "ls -ld #{dir}"
-            ss.ssh "#{@host}", "mkdir #{dir}" unless check_exists.stdout
+            ss.ssh "#{@host}", "mkdir #{dir}" if check_exists.exit_code
             # This shouldn't be run if we get an exception
             @retry_count = 0
         rescue Net::SSH::Simple::Error => e
