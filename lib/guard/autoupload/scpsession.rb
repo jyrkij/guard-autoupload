@@ -16,7 +16,7 @@ class SCPSession
 
     def upload!(local, remote)
         begin
-            ss.scp_ul "#{@host}", "#{local}", "#{remote}"
+            ss.scp_put "#{@host}", "#{local}", "#{remote}"
             # This shouldn't be run if we get an exception
             @retry_count = 0
         rescue Net::SSH::Simple::Error => e
