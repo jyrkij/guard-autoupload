@@ -42,7 +42,7 @@ For now you need to install `guard-autoupload` by building the gem manually
 and installing from that:
 
     gem build guard-autoupload.gemspec
-    gem install guard-autoupload-0.3.gem
+    gem install guard-autoupload-0.3.4.gem
 
 Author
 ------
