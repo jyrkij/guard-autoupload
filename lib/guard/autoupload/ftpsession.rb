@@ -3,7 +3,7 @@ require 'net/ftp'
 class FTPSession
     RESPAWN_INTERVAL = 60 # in seconds
 
-    def initialize(host, user, password)
+    def initialize(host, port, user, password)
         @session = Net::FTP.new
         @host = host
         @user = user

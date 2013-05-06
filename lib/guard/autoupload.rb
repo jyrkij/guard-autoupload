@@ -15,6 +15,7 @@ module Guard
             if options[:protocol] == :scp
                 @session = SCPSession.new(
                     options[:host],
+                    options[:port] || 22,
                     options[:user],
                     options[:password],
                     self
@@ -22,6 +23,7 @@ module Guard
             elsif options[:protocol] == :sftp
                 @session = SFTPSession.new(
                     options[:host],
+                    options[:port] || 22,
                     options[:user],
                     options[:password],
                     @instance
@@ -29,6 +31,7 @@ module Guard
             elsif options[:protocol] == :ftp
                 @session = FTPSession.new(
                     options[:host],
+                    options[:port] || 21,
                     options[:user],
                     options[:password]
                 )

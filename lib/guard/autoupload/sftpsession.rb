@@ -1,14 +1,16 @@
 require 'net/sftp'
 
 class SFTPSession
-    def initialize(host, user, password, caller_ref)
+    def initialize(host, port, user, password, caller_ref)
         @host = host
+        @port = port
         @user = user
         @password = password
         @session = Net::SFTP.start(
             @host,
             @user,
-            :password => @password
+            :password => @password,
+            :port => @port
         )
         @caller = caller_ref
     end
@@ -49,7 +51,8 @@ class SFTPSession
                 @session = Net::SFTP.start(
                     @host,
                     @user,
-                    :password => @password
+                    :password => @password,
+                    :port => @port
                 )
                 ret = yield
             else

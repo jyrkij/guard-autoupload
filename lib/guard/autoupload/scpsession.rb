@@ -1,8 +1,9 @@
 require 'net/ssh/simple'
 
 class SCPSession
-    def initialize(host, user, password, caller_ref)
+    def initialize(host, port, user, password, caller_ref)
         @host = host
+        @port = port
         @user = user
         @password = password.clone
         @caller = caller_ref
@@ -16,7 +17,7 @@ class SCPSession
 
     def upload!(local, remote)
         begin
-            ss.scp_put "#{@host}", "#{local}", "#{remote}"
+            ss.scp_put "#{@host}", "#{local}", "#{remote}", :port => @port
             # This shouldn't be run if we get an exception
             @retry_count = 0
         rescue Net::SSH::Simple::Error => e
@@ -36,8 +37,8 @@ class SCPSession
 
     def mkdir!(dir)
         begin
-            check_exists = ss.ssh "#{@host}", "ls -ld #{dir}"
-            ss.ssh "#{@host}", "mkdir #{dir}" if check_exists.exit_code
+            check_exists = ss.ssh "#{@host}", "ls -ld #{dir}", :port => @port
+            ss.ssh "#{@host}", "mkdir #{dir}", :port => @port if check_exists.exit_code
             # This shouldn't be run if we get an exception
             @retry_count = 0
         rescue Net::SSH::Simple::Error => e
@@ -57,7 +58,7 @@ class SCPSession
 
     def remove!(remote)
         begin
-            ss.ssh @host, "rm #{remote}"
+            ss.ssh @host, "rm #{remote}", :port => @port
             # This shouldn't be run if we get an exception
             @retry_count = 0
         rescue Net::SSH::Simple::Error => e
@@ -81,7 +82,7 @@ class SCPSession
 
     def ls!(dir)
         begin
-            ss.ssh @host, "ls #{dir}"
+            ss.ssh @host, "ls #{dir}", :port => @port
             # This shouldn't be run if we get an exception
             @retry_count = 0
         rescue Net::SSH::Simple::Error => e
