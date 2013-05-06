@@ -15,6 +15,8 @@ Sample guardfile:
                                   # Of these :scp is the preferred one for
                                   # its stability.
         :host => "remote_host",
+        # :port => 22,            # Uncomment this if you need to set port to
+                                  # something else than default.
         :user => "username",
         :password => "password",
         :remote => "remote_path",
@@ -38,11 +40,9 @@ Dependencies
 Installation
 ------------
 
-For now you need to install `guard-autoupload` by building the gem manually
-and installing from that:
+Finally the gem has been uploaded to rubygems. Install it with
 
-    gem build guard-autoupload.gemspec
-    gem install guard-autoupload-0.3.4.gem
+    gem install guard-autoupload
 
 Author
 ------
