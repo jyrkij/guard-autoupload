@@ -6,6 +6,8 @@ opts = {
                               # Of these :scp is the preferred one for
                               # its stability.
     :host => "remote_host",
+    # :port => 22,            # Uncomment this if you need to set port to
+                              # something else than default.
     :user => "username",
     :password => "password",
     :remote => "remote_path",
