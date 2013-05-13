@@ -5,7 +5,7 @@ class SCPSession
         @host = host
         @port = port
         @user = user
-        @password = password.clone
+        @password = password
         @caller = caller_ref
         @retry_count = 0
         @max_retries = 1
