@@ -89,8 +89,6 @@ class SCPSession
             case e.wrapped
             when Errno::ECONNRESET, Net::SSH::Disconnect
                 raise e if @retry_count >= @max_retries
-                puts @password
-                exit
                 @retry_count += 1
                 @caller.log "Failed listing directory contents and will try again."
                 @caller.log "The reason was #{e}" unless @caller.quiet?
