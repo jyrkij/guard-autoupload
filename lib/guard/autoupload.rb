@@ -43,10 +43,10 @@ module Guard
             @local = Dir.pwd
             @verbose = options[:verbose]
             @quiet = options[:quiet] unless verbose?
-
-            options[:password].gsub!(/./, '*') if options.include? :password
+            output = options.dup
+            output[:password] = options[:password].gsub(/./, '*') if options.include? :password
             log "Initialized with watchers #{watchers.inspect}" if verbose?
-            log "Initialized with options #{options.inspect}" unless quiet?
+            log "Initialized with options #{output.inspect}" unless quiet?
         end
 
         def run_on_change(paths)
