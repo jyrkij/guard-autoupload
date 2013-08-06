@@ -12,7 +12,7 @@ class SCPSession
     end
 
     def ss
-        Thread.current[:simplessh] ||= Net::SSH::Simple.new({:user => @user, :password => @password.clone})
+        Thread.current[:simplessh] ||= Net::SSH::Simple.new({:user => @user, :password => @password})
     end
 
     def upload!(local, remote)
