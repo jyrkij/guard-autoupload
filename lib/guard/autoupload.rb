@@ -52,6 +52,8 @@ module Guard
 
         def run_on_change(paths)
             paths.each do |path|
+                path = path.encode(Kconv::UTF8, Encoding::UTF8_MAC) if RUBY_PLATFORM.include? "darwin"
+                
                 local_file = File.join(@local, path)
                 remote_file = File.join(@remote, path)
 
