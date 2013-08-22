@@ -9,7 +9,7 @@ class FTPSession
         @user = user
         @password = password
         @last_timestamp = Time.new(0)
-        @session.connect(@host)
+        @session.connect(@host, port)
         @session.login(@user, @password)
     end
 
