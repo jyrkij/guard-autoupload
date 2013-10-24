@@ -41,6 +41,7 @@ module Guard
 
             @remote = options[:remote]
             @local = Dir.pwd
+            @local_subpath = options[:local] || ''
             @verbose = options[:verbose]
             @quiet = options[:quiet] unless verbose?
             output = options.dup
@@ -52,6 +53,7 @@ module Guard
         def run_on_change(paths)
             paths.each do |path|
                 local_file = File.join(@local, path)
+                path.sub!(/^#{@local_subpath}/, '')
                 remote_file = File.join(@remote, path)
 
                 attempts = 0
@@ -78,6 +80,7 @@ module Guard
 
         def run_on_removals(paths)
             paths.each do |path|
+                path.sub!(/^#{@local_subpath}/, '')
                 remote_file = File.join(@remote, path)
 
                 begin
