@@ -42,6 +42,7 @@ module Guard
 
             @remote = options[:remote]
             @local = Dir.pwd
+            @local_subpath = options[:local] || ''
             @verbose = options[:verbose]
             @quiet = options[:quiet] unless verbose?
             output = options.dup
@@ -55,6 +56,7 @@ module Guard
                 path = path.encode(Kconv::UTF8, Encoding::UTF8_MAC) if RUBY_PLATFORM.include? "darwin"
                 
                 local_file = File.join(@local, path)
+                path.sub!(/^#{@local_subpath}/, '')
                 remote_file = File.join(@remote, path)
 
                 attempts = 0
@@ -81,6 +83,7 @@ module Guard
 
         def run_on_removals(paths)
             paths.each do |path|
+                path.sub!(/^#{@local_subpath}/, '')
                 remote_file = File.join(@remote, path)
 
                 begin
