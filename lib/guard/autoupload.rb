@@ -47,8 +47,9 @@ module Guard
             @quiet = options[:quiet] unless verbose?
             output = options.dup
             output[:password] = options[:password].gsub(/./, '*') if options.include? :password
-            log "Initialized with watchers #{watchers.inspect}" if verbose?
-            log "Initialized with options #{output.inspect}" unless quiet?
+
+            UI.info("Initialized with watchers #{watchers.inspect}") if verbose?
+            UI.info("Initialized with options #{output.inspect}") unless quiet?
         end
 
         def run_on_change(paths)
@@ -62,17 +63,17 @@ module Guard
                 attempts = 0
 
                 begin
-                    log "Upload #{local_file} => #{remote_file}" if verbose?
+                    UI.info("Upload #{local_file} => #{remote_file}") if verbose?
                     @session.upload!(local_file, remote_file)
-                    log "Uploaded #{path}" unless quiet?
+                    UI.info("Uploaded #{path}") unless quiet?
                 rescue => ex
-                    log "Exception on uploading #{path}\n#{ex.inspect.toutf8}"
-                    log ex.backtrace.join("\n") if verbose?
+                    UI.error("Exception on uploading #{path}\n#{ex.inspect.toutf8}")
+                    UI.error(ex.backtrace.join("\n")) if verbose?
                     attempts += 1
                     remote_dir = File.dirname(remote_file)
                     recursively_create_dirs(remote_dir)
                     retry if attempts < 3
-                    log "Exceeded 3 attempts to upload #{path}"
+                    UI.info("Exceeded 3 attempts to upload #{path}")
                     throw :task_has_failed
                 end
             end
@@ -87,14 +88,14 @@ module Guard
                 remote_file = File.join(@remote, path)
 
                 begin
-                    log "Delete #{remote_file}" if verbose?
+                    UI.info("Delete #{remote_file}") if verbose?
                     @session.remove!(remote_file)
                 rescue => ex
-                    log "Exception on deleting #{path}\n#{ex.inspect.toutf8}"
-                    log ex.backtrace.join("\n") if verbose?
+                    UI.error("Exception on deleting #{path}\n#{ex.inspect.toutf8}")
+                    UI.error(ex.backtrace.join("\n")) if verbose?
                 end
 
-                log "Deleted #{path}" unless quiet?
+                UI.info("Deleted #{path}") unless quiet?
             end
 
             msg = "Deleted:\n#{paths.join("\n")}"
@@ -109,12 +110,8 @@ module Guard
             @quiet || false
         end
 
-        def log(message)
-            puts "[#{Time.now}] #{message}"
-        end
-
         def stop
-            log "Tearing down connections" unless quiet?
+            UI.info(l"Tearing down connections") unless quiet?
             if @session.is_a? SCPSession
                 @session.close
             end
@@ -128,15 +125,15 @@ module Guard
                 new_dir = File.join(new_dir, dir)
 
                 begin
-                    log "Creating #{new_dir}" if verbose?
+                    UI.info("Creating #{new_dir}") if verbose?
                     @session.mkdir!(new_dir)
                 rescue => ex
-                    log "Cannot create directory #{new_dir}\n#{ex.inspect.toutf8}"
-                    log ex.backtrace.join("\n") if verbose?
+                    UI.info("Cannot create directory #{new_dir}\n#{ex.inspect.toutf8}")
+                    UI.info(ex.backtrace.join("\n")) if verbose?
                 end
             end
 
-            log "Created directory #{remote_dir}" unless quiet?
+            UI.info("Created directory #{remote_dir}") unless quiet?
         end
     end
 end
