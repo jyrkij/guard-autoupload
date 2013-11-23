@@ -1,15 +1,15 @@
 $LOAD_PATH.unshift File.dirname(__FILE__)
 
 require 'guard'
-require 'guard/guard'
+require 'guard/plugin'
 require 'autoupload/scpsession.rb'
 require 'autoupload/sftpsession.rb'
 require 'autoupload/ftpsession.rb'
 require 'kconv'
 
 module Guard
-    class Autoupload < Guard
-        def initialize(watchers = [], options = {})
+    class Autoupload < Plugin
+        def initialize(options = {})
             super
 
             @instance = self
@@ -54,7 +54,7 @@ module Guard
         def run_on_change(paths)
             paths.each do |path|
                 path = path.encode(Kconv::UTF8, Encoding::UTF8_MAC) if RUBY_PLATFORM.include? "darwin"
-                
+
                 local_file = File.join(@local, path)
                 path.sub!(/^#{@local_subpath}/, '')
                 remote_file = File.join(@remote, path)
