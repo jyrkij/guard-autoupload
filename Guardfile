@@ -22,4 +22,3 @@ guard :autoupload, opts do
           %r{__jb_old__}, %r{__jb_bak__}  # ruby idea ingores
          ]
 end
-
