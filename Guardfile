@@ -16,8 +16,9 @@ opts = {
 }
 
 guard :autoupload, opts do
-  watch(/^((?!Guardfile$).)*$/)
-  ignore [%r{^.idea}, %r{^Guardfile}, %r{__jb_old__}, %r{__jb_bak__}]
-
-  # Matches every other file but Guardfile. This way we don't
+  watch(/^./)
+  ignore [%r{^.idea},
+          %r{^Guardfile}, #ignore the root guardfile
+          %r{__jb_old__}, %r{__jb_bak__}  # ruby idea ingores
+         ]
 end
