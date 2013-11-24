@@ -60,6 +60,10 @@ module Guard
                 path.sub!(/^#{@local_subpath}/, '')
                 remote_file = File.join(@remote, path)
 
+                if(File.directory?(local_file))
+                  next
+                end
+
                 attempts = 0
 
                 begin
@@ -85,22 +89,22 @@ module Guard
 
         def run_on_removals(paths)
             paths.each do |path|
-                path.sub!(/^#{@local_subpath}/, '')
-                remote_file = File.join(@remote, path)
-
-                begin
-                    UI.info("Delete #{remote_file}") if verbose?
-                    @session.remove!(remote_file)
-                rescue => ex
-                    UI.error("Exception on deleting #{path}\n#{ex.inspect.toutf8}")
-                    UI.error(ex.backtrace.join("\n")) if verbose?
-                end
-
-                UI.info("Deleted #{path}") unless quiet?
+              UI.info("trying to delete #{path}")
+            #    path.sub!(/^#{@local_subpath}/, '')
+            #    remote_file = File.join(@remote, path)
+            #
+            #    begin
+            #        UI.info("Delete #{remote_file}") if verbose?
+            #        @session.remove!(remote_file)
+            #    rescue => ex
+            #        UI.error("Exception on deleting #{path}\n#{ex.inspect.toutf8}")
+            #        UI.error(ex.backtrace.join("\n")) if verbose?
+            #    end
+            #
+            #    UI.info("Deleted #{path}") unless quiet?
             end
-
-            msg = "Deleted:\n#{paths.join("\n")}"
-            ::Guard::Notifier.notify msg, :title => "Deleted"
+            #
+            #::Guard::Notifier.notify "Deleted", :title => "Deleted"
         end
 
         def verbose?
