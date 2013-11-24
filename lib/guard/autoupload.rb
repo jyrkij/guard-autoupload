@@ -79,7 +79,8 @@ module Guard
             end
 
             msg = "Uploaded:\n#{paths.join("\n")}"
-            ::Guard::Notifier.notify msg, :title => "Uploaded"
+            UI.info(msg)
+            ::Guard::Notifier.notify "uploaded", :title => "Uploaded"
         end
 
         def run_on_removals(paths)
@@ -111,7 +112,7 @@ module Guard
         end
 
         def stop
-            UI.info(l"Tearing down connections") unless quiet?
+            UI.info("Tearing down connections") unless quiet?
             if @session.is_a? SCPSession
                 @session.close
             end
