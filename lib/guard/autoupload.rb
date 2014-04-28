@@ -1,6 +1,5 @@
 require 'guard'
 require 'guard/plugin'
-require 'guard/autoupload/version'
 require 'guard/autoupload/scpsession.rb'
 require 'guard/autoupload/sftpsession.rb'
 require 'guard/autoupload/ftpsession.rb'

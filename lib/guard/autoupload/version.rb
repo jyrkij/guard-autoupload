@@ -1,5 +1,5 @@
 module Guard
-  module Autoupload
+  module AutouploadVersion
     VERSION = "0.4.1"
   end
 end

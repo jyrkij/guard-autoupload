@@ -5,7 +5,7 @@ require 'guard/autoupload/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "guard-autoupload"
-  spec.version       = Guard::Autoupload::VERSION
+  spec.version       = Guard::AutouploadVersion::VERSION
   spec.authors       = ["Jyrki Lilja"]
   spec.email         = ["jyrki.lilja@focus.fi"]
   spec.summary       = %q{Autoupload plugin - uploads local changes to remote host.}
