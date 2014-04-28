@@ -1,11 +1,23 @@
-guard-autoupload
-================
+# guard-autoupload
 
 Autoupload plugin used for uploading all local changes to remote host.
 Uses either SFTP or FTP.
 
-Usage
------
+## Installation
+
+Add this line to your application's Gemfile:
+
+    gem 'guard-autoupload'
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install guard-autoupload
+
+## Usage
 
 Sample guardfile:
 
@@ -30,22 +42,15 @@ Sample guardfile:
         # accidentally upload the credentials.
     end
 
-Dependencies
-------------
+## Contributing
 
- - guard
- - Net::SFTP
- - Net::SSH::Simple
+1. Fork it ( https://github.com/jyrkij/guard-autoupload/fork )
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
 
-Installation
-------------
-
-Finally the gem has been uploaded to rubygems. Install it with
-
-    gem install guard-autoupload
-
-Author
-------
+## Author
 
 This guard plugin was written by Jyrki Lilja and is used at FocusFlow.
 The code is hevily based on [vincenthu's guard-flopbox][gsftp] and

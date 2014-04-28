@@ -2,9 +2,9 @@ PATH
   remote: .
   specs:
     guard-autoupload (0.4.1)
-      guard
-      net-sftp
-      net-ssh-simple
+      guard (~> 2.6)
+      net-sftp (~> 2.1)
+      net-ssh-simple (~> 1.6)
 
 GEM
   remote: https://rubygems.org/
@@ -59,6 +59,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler (~> 1.5)
   guard
   guard-autoupload!
   rake
