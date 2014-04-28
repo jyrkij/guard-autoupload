@@ -2,6 +2,7 @@ $LOAD_PATH.unshift File.dirname(__FILE__)
 
 require 'guard'
 require 'guard/plugin'
+require 'autoupload/version'
 require 'autoupload/scpsession.rb'
 require 'autoupload/sftpsession.rb'
 require 'autoupload/ftpsession.rb'
