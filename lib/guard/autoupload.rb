@@ -1,11 +1,9 @@
-$LOAD_PATH.unshift File.dirname(__FILE__)
-
 require 'guard'
 require 'guard/plugin'
-require 'autoupload/version'
-require 'autoupload/scpsession.rb'
-require 'autoupload/sftpsession.rb'
-require 'autoupload/ftpsession.rb'
+require 'guard/autoupload/version'
+require 'guard/autoupload/scpsession.rb'
+require 'guard/autoupload/sftpsession.rb'
+require 'guard/autoupload/ftpsession.rb'
 require 'kconv'
 
 module Guard

@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
   
-  spec.add_runtime_dependency 'guard', '~> 1.8'
+  spec.add_runtime_dependency 'guard', '~> 2.6'
   spec.add_runtime_dependency 'net-sftp', '~> 2.1'
   spec.add_runtime_dependency 'net-ssh-simple', '~> 1.6'
 
