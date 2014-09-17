@@ -43,6 +43,7 @@ module Guard
       @local_subpath = options[:local] || ''
       @verbose = options[:verbose]
       @quiet = options[:quiet] unless verbose?
+      @remote_delete = options[:remote_delete].nil? ? true : options[:remote_delete]
       output = options.dup
       output[:password] = options[:password].gsub(/./, '*') if options.include? :password
 
@@ -50,7 +51,8 @@ module Guard
       UI.info("Initialized with options #{output.inspect}") unless quiet?
     end
 
-    def run_on_change(paths)
+    def run_on_changes(paths)
+      local_file = nil
       paths.each do |path|
         path = path.encode(Kconv::UTF8, Encoding::UTF8_MAC) if RUBY_PLATFORM.include? "darwin"
 
@@ -83,24 +85,27 @@ module Guard
       msg = "Uploaded:\n#{paths.join("\n")}"
       UI.info(msg)
       ::Guard::Notifier.notify "uploaded", :title => "Uploaded"
+      local_file
     end
 
     def run_on_removals(paths)
       paths.each do |path|
         path.sub!(/^#{@local_subpath}/, '')
         remote_file = File.join(@remote, path)
-            
-        begin
-          UI.info("Delete #{remote_file}") if verbose?
-          @session.remove!(remote_file)
-        rescue => ex
-          UI.error("Exception on deleting #{path}\n#{ex.inspect.toutf8}")
-          UI.error(ex.backtrace.join("\n")) if verbose?
+
+        if @remote_delete
+          begin
+            UI.info("Delete #{remote_file}") if verbose?
+            @session.remove!(remote_file)
+          rescue => ex
+            UI.error("Exception on deleting #{path}\n#{ex.inspect.toutf8}")
+            UI.error(ex.backtrace.join("\n")) if verbose?
+          end
         end
-            
+
         UI.info("Deleted #{path}") unless quiet?
       end
-            
+
       ::Guard::Notifier.notify "Deleted", :title => "Deleted"
     end
 
