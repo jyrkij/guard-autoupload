@@ -13,7 +13,7 @@ opts = {
     :remote => "remote_path",
     :verbose => true,        # if true you get all outputs
     :quiet => false,           # if true outputs only on exceptions.
-    :remote_delete => true     # remove the remote file if the local file is deleted (defaults to true)
+    :remote_delete => true     # delete the remote file if the local file is deleted (defaults to true)
 }
 
 guard :autoupload, opts do
