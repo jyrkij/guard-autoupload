@@ -12,7 +12,8 @@ opts = {
     :password => "password",
     :remote => "remote_path",
     :verbose => true,        # if true you get all outputs
-    :quiet => false           # if true outputs only on exceptions.
+    :quiet => false,           # if true outputs only on exceptions.
+    :remote_delete => true     # delete the remote file if the local file is deleted (defaults to true)
 }
 
 guard :autoupload, opts do
@@ -22,4 +23,3 @@ guard :autoupload, opts do
           %r{__jb_old__}, %r{__jb_bak__}  # ruby idea ingores
          ]
 end
-

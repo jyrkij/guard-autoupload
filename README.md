@@ -34,6 +34,7 @@ Sample guardfile:
         :remote => "remote_path",
         :verbose => false,        # if true you get all outputs
         :quiet => false           # if true outputs only on exceptions.
+        :remote_delete => true    # delete the remote file if local file is deleted (defaults to true)
     }
 
     guard :autoupload, opts do
@@ -58,4 +59,3 @@ The code is hevily based on [vincenthu's guard-flopbox][gsftp] and
 
 [gsftp]: https://github.com/vincentchu/guard-flopbox
 [gftp]: https://github.com/bgarret/guard-ftpsync
-
