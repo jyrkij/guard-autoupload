@@ -33,7 +33,7 @@ Sample guardfile:
         :password => "password",
         :remote => "remote_path",
         :verbose => false,        # if true you get all outputs
-        :quiet => false           # if true outputs only on exceptions.
+        :quiet => false,          # if true outputs only on exceptions.
         :remote_delete => true    # delete the remote file if local file is deleted (defaults to true)
     }
 
